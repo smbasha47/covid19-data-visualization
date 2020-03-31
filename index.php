@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="COVID-19/coronavirus  effected data visualization">
     <meta name="robots" content="index, follow">
-    <title>COVID-19</title>
+    <title>COVID-19 data visualization</title>
+    <meta property="og:image" content="./images/home.png" />
     <!-- base:css -->
     <link href='./css/bootstrap.css?<?php echo time();?>' rel='stylesheet' type='text/css'>
   <link href='./css/dc.css?<?php echo time();?>' rel='stylesheet' type='text/css'>
