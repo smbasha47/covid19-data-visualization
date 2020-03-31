@@ -8,25 +8,21 @@
     <meta name="robots" content="index, follow">
     <title>COVID-19</title>
     <!-- base:css -->
-    <link href='./css/bootstrap.css' rel='stylesheet' type='text/css'>
-  <link href='./css/dc.css' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="./css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="./css/vendor.bundle.base.css">
+    <link href='./css/bootstrap.css?<?php echo time();?>' rel='stylesheet' type='text/css'>
+  <link href='./css/dc.css?<?php echo time();?>' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="./css/materialdesignicons.min.css?<?php echo time();?>">
+    <link rel="stylesheet" href="./css/vendor.bundle.base.css?<?php echo time();?>">
     <!-- endinject -->
     <!-- plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css?<?php echo time();?>">
     <style type="text/css">
         div.dc-chart {
                    float: left;
                }
                #daily-volume-chart g.y, #weekly-volume-chart g.y {
                    display: none;
-               }
-               #logo {
-                   margin-right: 2em;
-                   margin-top: 2em;
                }
        .dc-chart text, #country text{
              fill: black;
@@ -49,10 +45,10 @@
            }
          </style>
     <!-- endinject -->
-    <script src='./js/d3.js' type='text/javascript'></script>
-  <script src='./js/crossfilter.js' type='text/javascript'></script>
-  <script src='./js/dc.js' type='text/javascript'></script>
-  <script src='./js/jquery-3.4.1.min.js' type='text/javascript'></script>
+    <script src='./js/d3.js?<?php echo time();?>' type='text/javascript'></script>
+  <script src='./js/crossfilter.js?<?php echo time();?>' type='text/javascript'></script>
+  <script src='./js/dc.js?<?php echo time();?>' type='text/javascript'></script>
+  <script src='./js/jquery-3.4.1.min.js?<?php echo time();?>' type='text/javascript'></script>
   </head>
   <body>
     <div class="container-scroller">
@@ -107,7 +103,7 @@
                                                 <div class="clearfix"></div>
                                               </div>
                                               <div class="row">
-                                                <div id="daily-volume-chart">
+                                                <div id="daily-volume-chart" style="width:100%;">
                                                 </div>
                                                 <p class="muted pull-right" style="margin-right: 15px;">select a time range to zoom in</p>
                                               </div>
@@ -154,7 +150,7 @@
 		<!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
-    <script src='./js/preparecharts.js?version=1.7' type='text/javascript'></script>
+    <script src='./js/preparecharts.js?version=<?php echo time();?>' type='text/javascript'></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162177579-1"></script>
     <script>
