@@ -10,6 +10,13 @@ function static_copy_group(group) {
         }
     }
 }
+// const dateFormatSpecifier = '%m/%d/%Y';
+const dateFormatSpecifier = '%Y-%m-%d';
+const dateFormat = d3.timeFormat(dateFormatSpecifier);
+const formatWeek = d3.timeFormat("%b %d");
+const fullDateFormat = d3.timeFormat("%B %d %Y");
+const dateFormatParser = d3.timeParse(dateFormatSpecifier);
+const numberFormat = d3.format('.2f');
 var country = new dc.RowChart("#country");
 const covid19Daily = new dc.LineChart('#covid19-daily');
 const covid19Weekly = new dc.LineChart('#covid19-weekly');
@@ -22,7 +29,6 @@ var all;
 
 function updateCounts(){
     let filterData = ndx.allFiltered();
-    let allData = ndx.all();
     let filterNoOfCases = 0 ;
     let filterNoOfDeaths = 0;
     filterData.forEach(function(d){ filterNoOfCases +=d.new_cases; });
@@ -31,14 +37,10 @@ function updateCounts(){
     $("#filterDeaths").html(filterNoOfDeaths);
 }
 
-d3.csv('./data/full_data.csv').then(function(data) {
-    // Since its a csv file we need to format the data a bit.
-    const dateFormatSpecifier = '%m/%d/%Y';
-    const dateFormat = d3.timeFormat(dateFormatSpecifier);
-    const formatWeek = d3.timeFormat("%b %d");
-    const fullDateFormat = d3.timeFormat("%B %d %Y");
-    const dateFormatParser = d3.timeParse(dateFormatSpecifier);
-    const numberFormat = d3.format('.2f');
+d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function(data) {
+    data = data.filter(function(d) {
+        return d.location != "World";
+    });
 
     data.forEach(function(d) {
         d.dd = dateFormatParser(d.date);
@@ -55,9 +57,6 @@ d3.csv('./data/full_data.csv').then(function(data) {
 
     data_count.crossfilter(ndx)
         .groupAll(all);
-    
-    var breathing_room = 0.05;
-    var show_unfiltered = true;
     
     var dim = ndx.dimension(function(d) { return d.location; }),
         group = dim.group().reduceSum(function(d) {return d.new_cases;});
