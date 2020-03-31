@@ -24,11 +24,11 @@ function updateCounts(){
     let filterData = ndx.allFiltered();
     let allData = ndx.all();
     let filterNoOfCases = 0 ;
-    let totalSize = 0;
+    let filterNoOfDeaths = 0;
     filterData.forEach(function(d){ filterNoOfCases +=d.new_cases; });
-    allData.forEach(function(d){ totalSize +=d.new_cases; })
+    filterData.forEach(function(d){ filterNoOfDeaths +=d.new_deaths; })
     $("#filterCases").html(filterNoOfCases);
-    $("#totalCases").html(totalSize);
+    $("#filterDeaths").html(filterNoOfDeaths);
 }
 
 d3.csv('./data/full_data.csv').then(function(data) {
