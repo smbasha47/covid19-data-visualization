@@ -46,7 +46,7 @@
            }
          </style>
     <!-- endinject -->
-    <script src='./js/d3.js?<?php echo time();?>' type='text/javascript'></script>
+  <script src='./js/d3.js?<?php echo time();?>' type='text/javascript'></script>
   <script src='./js/crossfilter.js?<?php echo time();?>' type='text/javascript'></script>
   <script src='./js/dc.js?<?php echo time();?>' type='text/javascript'></script>
   <script src='./js/jquery-3.4.1.min.js?<?php echo time();?>' type='text/javascript'></script>
@@ -58,10 +58,12 @@
                 <div class="container-fluid">
                     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
                         <h5 class="text-dark font-weight-bold mb-2">Interactive visualization of 
-                        weekly and daily change in covid-19 cases by country</h5>
+                        weekly and daily change in covid-19 cases by country
+                        <br><br>
+                        <span class="text-danger font-weight-bold"> Cases: <span id="filterCases"></span> &nbsp; &nbsp;  Deaths: <span id="filterDeaths"></span> </span>
+                       </h5>
                         <h5 class="text-danger font-weight-bold" >
-                          Cases: <span id="filterCases"></span><br>
-                          Deaths: <span id="filterDeaths"></span>
+                        
                          </h5>
                         <span style="font-size: 10px;"><a href="https://ourworldindata.org/coronavirus-source-data" target="black">[Data Source]</a>
                           <br>

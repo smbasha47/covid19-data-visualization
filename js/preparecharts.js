@@ -69,31 +69,32 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
         (p, v) => {
             ++p.days;
             p.total += v.new_cases;
-            p.avg = Math.round(p.total / p.days);
+            p.g_total += v.total_cases;
             return p;
         },
         (p, v) => {
             --p.days;
             p.total -= v.new_cases;
+            p.g_total -= v.total_cases;
             p.avg = p.days ? Math.round(p.total / p.days) : 0;
             return p;
         },
-        () => ({days: 0, total: 0, avg: 0})
+        () => ({days: 0, total: 0, g_total:0})
     );
     const indexAvgByDayDeathsGroup = moveDays.group().reduce(
         (p, v) => {
             ++p.days;
             p.total += v.new_deaths;
-            p.avg = Math.round(p.total / p.days);
+            p.g_total += v.total_deaths;
             return p;
         },
         (p, v) => {
             --p.days;
             p.total -= v.new_deaths;
-            p.avg = p.days ? Math.round(p.total / p.days) : 0;
+            p.g_total -= v.total_deaths;
             return p;
         },
-        () => ({days: 0, total: 0, avg: 0})
+        () => ({days: 0, total: 0, g_total:0})
     );
     const moveWeeks = ndx.dimension(d => d.week);
     const volumeByWeeksGroup = moveWeeks.group().reduceSum(d => d.new_cases);
@@ -101,31 +102,31 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
         (p, v) => {
             ++p.weeks;
             p.total += v.new_cases;
-            p.avg = Math.round(p.total / p.weeks);
+            p.g_total += v.total_cases;
             return p;
         },
         (p, v) => {
             --p.weeks;
             p.total -= v.new_cases;
-            p.avg = p.weeks ? Math.round(p.total / p.weeks) : 0;
+            p.g_total -= v.total_cases;
             return p;
         },
-        () => ({weeks: 0, total: 0, avg: 0})
+        () => ({weeks: 0, total: 0, g_total: 0})
     );
     const indexAvgByWeeksDeathsGroup = moveWeeks.group().reduce(
         (p, v) => {
             ++p.weeks;
             p.total += v.new_deaths;
-            p.avg = Math.round(p.total / p.weeks);
+            p.g_total += v.total_deaths;
             return p;
         },
         (p, v) => {
             --p.weeks;
             p.total -= v.new_deaths;
-            p.avg = p.weeks ? Math.round(p.total / p.weeks) : 0;
+            p.g_total -= v.total_deaths;
             return p;
         },
-        () => ({weeks: 0, total: 0, avg: 0})
+        () => ({weeks: 0, total: 0, g_total: 0})
     );
 
     var dynamic_for_width = document.getElementById("row_for_width").offsetWidth;
@@ -185,20 +186,21 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
             .round(d3.timeDay.round)
             .xUnits(d3.timeDays)
             .elasticY(true)
+            .renderDataPoints(true)
             .ordinalColors(ordinalColors)
             // .y(d3.scaleLog().clamp(true).domain([.5, 1000000]))
             .renderHorizontalGridLines(true)
             //##### Legend
 
             // Position the legend relative to the chart origin and specify items' height and separation.
-            .legend(new dc.Legend().x(800).y(10).itemHeight(13).gap(5))
+            .legend(new dc.Legend().horizontal(true).x(700).y(10).gap(10))
             .brushOn(false)
             // Add the base layer of the stack with group. The second parameter specifies a series name for use in the
             // legend.
             // The `.valueAccessor` will be used for the base layer
-            .group(indexAvgByDayDeathsGroup, 'No of. Deaths')
+            .group(indexAvgByDayDeathsGroup, 'Deaths')
             .valueAccessor(d => d.value.total)
-            .stack(indexAvgByDayGroup, 'No of. Cases', d => d.value.total)
+            .stack(indexAvgByDayGroup, 'New cases', d => d.value.total)
             //.y(d3.scaleSymlog())
             // Title can be called by any stack layer.
             .title(d => {
@@ -206,7 +208,14 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
                 if (isNaN(value)) {
                     value = 0;
                 }
-                return `${dateFormat(d.key)}\n${numberFormat(value)}`;
+                let per = 0;
+                let new_cases = (d.value.g_total-d.value.total);
+                if(new_cases==0){
+                    per = 0;
+                }else{
+                    per = (d.value.total/new_cases)*100
+                }
+                return `${dateFormat(d.key)}\n${value}\n${numberFormat(per)}%`;
             })
             .yAxis().tickFormat(d3.format('.2s'));
         covid19Weekly /* dc.lineChart('#monthly-move-chart', 'chartGroup') */
@@ -217,6 +226,7 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
             .margins({top: 30, right: 50, bottom: 25, left: 40})
             .dimension(moveWeeks)
             .mouseZoomable(true)
+            .renderDataPoints(true)
             .on("filtered", function (chart) {
                 updateCounts();
             })
@@ -231,21 +241,28 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
         //##### Legend
 
             // Position the legend relative to the chart origin and specify items' height and separation.
-            .legend(new dc.Legend().x(800).y(10).itemHeight(13).gap(5))
+            .legend(new dc.Legend().horizontal(true).x(700).y(10).gap(10))
             .brushOn(false)
             // Add the base layer of the stack with group. The second parameter specifies a series name for use in the
             // legend.
             // The `.valueAccessor` will be used for the base layer
-            .group(indexAvgByWeeksDeathsGroup, 'No of. Deaths')
+            .group(indexAvgByWeeksDeathsGroup, 'Deaths')
             .valueAccessor(d => d.value.total)
-            .stack(indexAvgByWeeksGroup, 'No of. Cases', d => d.value.total)
+            .stack(indexAvgByWeeksGroup, 'New cases', d => d.value.total)
             // Title can be called by any stack layer.
             .title(d => {
                 let value = d.value.total ? d.value.total : d.value;
                 if (isNaN(value)) {
                     value = 0;
                 }
-                return `${formatWeek(d.key)}\n${numberFormat(value)}`;
+                let per = 0;
+                let new_cases = (d.value.g_total-d.value.total);
+                if(new_cases==0){
+                    per = 0;
+                }else{
+                    per = (d.value.total/new_cases)*100
+                }
+                return `${formatWeek(d.key)}\n${value}\n${numberFormat(per)}%`;
             }).yAxis().tickFormat(d3.format('.2s'));
 
     function ydomain_from_child1(chart) {
