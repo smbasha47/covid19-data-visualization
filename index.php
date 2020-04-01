@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="COVID-19/coronavirus  effected data visualization">
     <meta name="robots" content="index, follow">
-    <title>Interactive Visualisation of Weekly and daily change in Covid-19 cases by country</title>
+    <title>Interactive visualization  of weekly and daily change in Covid-19 cases by country</title>
     <meta property="og:image" content="./images/home.png" />
     <!-- base:css -->
     <link href='./css/bootstrap.css?<?php echo time();?>' rel='stylesheet' type='text/css'>
@@ -57,8 +57,8 @@
             <nav class="navbar top-navbar col-lg-12 col-12 p-0">
                 <div class="container-fluid">
                     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
-                        <h5 class="text-dark font-weight-bold mb-2">Interactive Visualisation of 
-                        Weekly and daily change in Covid-19 cases by country</h5>
+                        <h5 class="text-dark font-weight-bold mb-2">Interactive visualization of 
+                        weekly and daily change in Covid-19 cases by country</h5>
                         <h5 class="text-danger font-weight-bold" >
                           Cases: <span id="filterCases"></span><br>
                           Deaths: <span id="filterDeaths"></span>
