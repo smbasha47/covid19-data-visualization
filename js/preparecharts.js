@@ -186,7 +186,7 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
             .ordinalColors(ordinalColors)
             // .y(d3.scaleLog().clamp(true).domain([.5, 1000000]))
             .renderHorizontalGridLines(true)
-        //##### Legend
+            //##### Legend
 
             // Position the legend relative to the chart origin and specify items' height and separation.
             .legend(new dc.Legend().x(800).y(10).itemHeight(13).gap(5))
@@ -197,6 +197,7 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
             .group(indexAvgByDayDeathsGroup, 'No of. Deaths')
             .valueAccessor(d => d.value.total)
             .stack(indexAvgByDayGroup, 'No of. Cases', d => d.value.total)
+            //.y(d3.scaleSymlog())
             // Title can be called by any stack layer.
             .title(d => {
                 let value = d.value.total ? d.value.total : d.value;
@@ -204,7 +205,8 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
                     value = 0;
                 }
                 return `${dateFormat(d.key)}\n${numberFormat(value)}`;
-            });
+            })
+            .yAxis().tickFormat(d3.format('.2s'));
         covid19Weekly /* dc.lineChart('#monthly-move-chart', 'chartGroup') */
             .renderArea(true)
             // .width(990)
