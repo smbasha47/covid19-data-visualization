@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="COVID-19/coronavirus  effected data visualization">
     <meta name="robots" content="index, follow">
-    <title>COVID-19 data visualization</title>
+    <title>Interactive Visualisation of Weekly and daily change in Covid-19 cases by country</title>
     <meta property="og:image" content="./images/home.png" />
     <!-- base:css -->
     <link href='./css/bootstrap.css?<?php echo time();?>' rel='stylesheet' type='text/css'>
-  <link href='./css/dc.css?<?php echo time();?>' rel='stylesheet' type='text/css'>
+    <link href='./css/dc.css?<?php echo time();?>' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="./css/materialdesignicons.min.css?<?php echo time();?>">
     <link rel="stylesheet" href="./css/vendor.bundle.base.css?<?php echo time();?>">
     <!-- endinject -->
