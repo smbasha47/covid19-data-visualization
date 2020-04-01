@@ -63,7 +63,7 @@
                           Cases: <span id="filterCases"></span><br>
                           Deaths: <span id="filterDeaths"></span>
                          </h5>
-                        <span><a href="https://ourworldindata.org/coronavirus-source-data" target="black">[Data Source]</a>
+                        <span style="font-size: 10px;"><a href="https://ourworldindata.org/coronavirus-source-data" target="black">[Data Source]</a>
                           <br>
                           <h10 class="text-dark"> Last Updated on:  <span id="lastUpdated"></span> </h10>
                         </span>
@@ -142,6 +142,15 @@
           <div class="footer-wrap">
               <div class="w-100 clearfix">
                 <span class="d-block text-center text-sm-left d-sm-inline-block">Copyright © 2020 . All rights reserved.</span>
+              </div>
+              <div class="w-100 clearfix pull-right">
+              <span class="d-block text-center text-sm-left d-sm-inline-block"> Contributors: Mahaboob Basha, Srini PNV </span>
+              </div>
+              <div class="w-100 clearfix pull-right">
+                <span> <a href="https://github.com/smbasha47/covid19-data-visualization" target="blank" >GitHub</a> </span>
+              </div>
+              <div class="w-100 clearfix pull-right">
+                <span> LICENSE: Apache 2.0</span>
               </div>
           </div>
         </footer>
