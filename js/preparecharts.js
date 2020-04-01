@@ -244,7 +244,7 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
                     value = 0;
                 }
                 return `${formatWeek(d.key)}\n${numberFormat(value)}`;
-            });
+            }).yAxis().tickFormat(d3.format('.2s'));
 
     function ydomain_from_child1(chart) {
         chart.y().domain([0, chart.children()[1].yAxisMax()]);
