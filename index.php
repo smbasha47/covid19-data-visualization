@@ -58,7 +58,7 @@
                 <div class="container-fluid">
                     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
                         <h5 class="text-dark font-weight-bold mb-2">Interactive visualization of 
-                        weekly and daily change in Covid-19 cases by country</h5>
+                        weekly and daily change in covid-19 cases by country</h5>
                         <h5 class="text-danger font-weight-bold" >
                           Cases: <span id="filterCases"></span><br>
                           Deaths: <span id="filterDeaths"></span>
