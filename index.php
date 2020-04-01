@@ -140,18 +140,10 @@
 				<!-- partial:partials/_footer.html -->
 				<footer class="footer">
           <div class="footer-wrap">
-              <div class="w-100 clearfix">
-                <span class="d-block text-center text-sm-left d-sm-inline-block">Copyright © 2020 . All rights reserved.</span>
-              </div>
-              <div class="w-100 clearfix pull-right">
-              <span class="d-block text-center text-sm-left d-sm-inline-block"> Contributors: Mahaboob Basha, Srini PNV </span>
-              </div>
-              <div class="w-100 clearfix pull-right">
-                <span> <a href="https://github.com/smbasha47/covid19-data-visualization" target="blank" >GitHub</a> </span>
-              </div>
-              <div class="w-100 clearfix pull-right">
-                <span> LICENSE: Apache 2.0</span>
-              </div>
+            <div style="float: right;"> <a href="https://github.com/smbasha47/covid19-data-visualization" target="blank" >GitHub</a> LICENSE: Apache 2.0</div>
+            <div style="float: left;"> Contributors: Mahaboob Basha, Srini PNV </div>
+            <div style="width: 250px;margin:0 auto;">Copyright &copy; 2020 . All rights reserved.</div>
+            <div style="clear: both;"></div>
           </div>
         </footer>
 				<!-- partial -->
