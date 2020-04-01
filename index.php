@@ -95,7 +95,7 @@
                                 <div class="col-lg-12">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="d-flex align-items-center justify-content-between">
+                                            <div id="row_for_width" class="d-flex align-items-center justify-content-between">
                                                 <h3>Daily</h3>
                                             </div>
                                             <div id="covid19-daily" style="width:100%;">

@@ -127,6 +127,8 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
         },
         () => ({weeks: 0, total: 0, avg: 0})
     );
+
+    var dynamic_for_width = document.getElementById("row_for_width").offsetWidth;
     
         country
             .height( 5000 )
@@ -142,9 +144,9 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
             .controlsUseVisibility( true )
             .render();
 
-        dailyVolumeChart.width(990)
+        dailyVolumeChart.width(dynamic_for_width)
             .height(40)
-            .margins({top: 0, right: 50, bottom: 20, left: 40})
+            .margins({top: 0, right: 35, bottom: 20, left: 40})
             .dimension(moveDays)
             .group(volumeByDayGroup)
             .centerBar(true)
@@ -154,9 +156,9 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
             .alwaysUseRounding(true)
             .xUnits(d3.timeDays);
         
-        weeklyVolumeChart.width(990)
+        weeklyVolumeChart.width(dynamic_for_width)
             .height(40)
-            .margins({top: 0, right: 50, bottom: 20, left: 40})
+            .margins({top: 0, right: 35, bottom: 20, left: 40})
             .dimension(moveWeeks)
             .group(volumeByWeeksGroup)
             .centerBar(true)
