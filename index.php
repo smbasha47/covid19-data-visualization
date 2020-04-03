@@ -60,7 +60,7 @@
                         <h5 class="text-dark font-weight-bold mb-2">Interactive visualization of 
                         weekly and daily change in covid-19 cases by country
                         <br><br>
-                        <span class="text-danger font-weight-bold"> Cases: <span id="filterCases"></span> &nbsp; &nbsp;  Deaths: <span id="filterDeaths"></span> </span>
+                        <span class="text-danger font-weight-bold"> Total Cases: <span id="filterCases"></span> &nbsp; &nbsp; Total Deaths: <span id="filterDeaths"></span> </span>
                        </h5>
                         <h5 class="text-danger font-weight-bold" >
                         
@@ -98,7 +98,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div id="row_for_width" class="d-flex align-items-center justify-content-between">
-                                                <h3>Daily</h3>
+                                                <h3>Daily change in New Cases & Deaths </h3>
                                             </div>
                                             <div id="covid19-daily" style="width:100%;">
                                                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
@@ -118,7 +118,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div id="covid19-weekly" style="width:100%;">
-                                                <h5 class="chart-title">Weekly</h5>
+                                                <h3 class="chart-title">Weekly change in New Cases & Deaths</h3>
                                                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
                                                 <a class="reset" href="javascript:covid19Weekly.filterAll();weeklyVolumeChart.filterAll();dc.redrawAll();"
                                                   style="display: none;">reset</a>
