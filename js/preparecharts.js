@@ -25,9 +25,12 @@ const weeklyVolumeChart = new dc.BarChart('#weekly-volume-chart');
 const minDate= new Date(2020, 0, 1), maxDate= new Date(2020, 03, 05);
 const ordinalColors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628'];
 var ndx;
-var all;
+var all, dim, moveDays, indexAvgByDayGroup, 
+    dayNewCasesGroupData, dayNewDeathsGroupData,
+    weekNewCasesGroupData, weekNewDeathsGroupData;
 
 function updateCounts(){
+    // console.log(indexAvgByDayGroup.top(100000));
     let filterData = ndx.allFiltered();
     let filterNoOfCases = 0 ;
     let filterNoOfDeaths = 0;
@@ -58,18 +61,19 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
     data_count.crossfilter(ndx)
         .groupAll(all);
     
-    var dim = ndx.dimension(function(d) { return d.location; }),
+     dim = ndx.dimension(function(d) { return d.location; }),
         group = dim.group().reduceSum(function(d) {return d.new_cases;});
     
     var maxDate = dim.top(1)[0]['dd'];
     $("#lastUpdated").html(fullDateFormat(maxDate));
-    const moveDays = ndx.dimension(d => d.day);
+    moveDays = ndx.dimension(d => d.day);
     const volumeByDayGroup = moveDays.group().reduceSum(d => d.new_cases);
-    const indexAvgByDayGroup = moveDays.group().reduce(
+    indexAvgByDayGroup = moveDays.group().reduce(
         (p, v) => {
             ++p.days;
             p.total += v.new_cases;
             p.g_total += v.total_cases;
+            p.type = "newCases";
             return p;
         },
         (p, v) => {
@@ -77,25 +81,31 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
             p.total -= v.new_cases;
             p.g_total -= v.total_cases;
             p.avg = p.days ? Math.round(p.total / p.days) : 0;
+            p.type = "newCases";
             return p;
         },
-        () => ({days: 0, total: 0, g_total:0})
+        () => ({days: 0, total: 0, g_total:0, type:"newCases"})
     );
     const indexAvgByDayDeathsGroup = moveDays.group().reduce(
         (p, v) => {
             ++p.days;
             p.total += v.new_deaths;
             p.g_total += v.total_deaths;
+            p.type = "newDeaths";
             return p;
         },
         (p, v) => {
             --p.days;
             p.total -= v.new_deaths;
             p.g_total -= v.total_deaths;
+            p.type = "newDeaths";
             return p;
         },
-        () => ({days: 0, total: 0, g_total:0})
+        () => ({days: 0, total: 0, g_total:0, type: "newDeaths"})
     );
+    dayNewCasesGroupData = indexAvgByDayGroup.all();
+    dayNewDeathsGroupData = indexAvgByDayDeathsGroup.all();
+    // console.log(dayNewCasesGroupData, dayNewDeathsGroupData);
     const moveWeeks = ndx.dimension(d => d.week);
     const volumeByWeeksGroup = moveWeeks.group().reduceSum(d => d.new_cases);
     const indexAvgByWeeksGroup = moveWeeks.group().reduce(
@@ -103,31 +113,37 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
             ++p.weeks;
             p.total += v.new_cases;
             p.g_total += v.total_cases;
+            p.type = "newCases";
             return p;
         },
         (p, v) => {
             --p.weeks;
             p.total -= v.new_cases;
             p.g_total -= v.total_cases;
+            p.type = "newCases";
             return p;
         },
-        () => ({weeks: 0, total: 0, g_total: 0})
+        () => ({weeks: 0, total: 0, g_total: 0, type:"newCases"})
     );
     const indexAvgByWeeksDeathsGroup = moveWeeks.group().reduce(
         (p, v) => {
             ++p.weeks;
             p.total += v.new_deaths;
             p.g_total += v.total_deaths;
+            p.type = "newDeaths";
             return p;
         },
         (p, v) => {
             --p.weeks;
             p.total -= v.new_deaths;
             p.g_total -= v.total_deaths;
+            p.type = "newDeaths";
             return p;
         },
-        () => ({weeks: 0, total: 0, g_total: 0})
+        () => ({weeks: 0, total: 0, g_total: 0, type:"newDeaths"})
     );
+    weekNewCasesGroupData = indexAvgByWeeksGroup.all();
+    weekNewDeathsGroupData = indexAvgByWeeksDeathsGroup.all();
 
     var dynamic_for_width = document.getElementById("row_for_width").offsetWidth;
     
@@ -203,17 +219,20 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
             .stack(indexAvgByDayGroup, 'New cases', d => d.value.total)
             //.y(d3.scaleSymlog())
             // Title can be called by any stack layer.
-            .title(d => {
+            .title((d, i) => {
+                let data = d.value.type=="newCases"? dayNewCasesGroupData:dayNewDeathsGroupData;
                 let value = d.value.total ? d.value.total : d.value;
                 if (isNaN(value)) {
                     value = 0;
                 }
                 let per = 0;
-                let new_cases = (d.value.g_total-d.value.total);
-                if(new_cases==0){
-                    per = 0;
-                }else{
-                    per = (d.value.total/new_cases)*100
+                if(i>0){
+                    let p = data[i];
+                    try{
+                        per = ((d.value.total - p.value.total)/p.value.total) * 100;
+                    }catch(e){
+
+                    }
                 }
                 return `${dateFormat(d.key)}\n${value}\n${numberFormat(per)}%`;
             })
@@ -250,17 +269,20 @@ d3.csv('https://covid.ourworldindata.org/data/ecdc/full_data.csv').then(function
             .valueAccessor(d => d.value.total)
             .stack(indexAvgByWeeksGroup, 'New cases', d => d.value.total)
             // Title can be called by any stack layer.
-            .title(d => {
+            .title((d, i)=> {
                 let value = d.value.total ? d.value.total : d.value;
+                let data = d.value.type=="newCases"? weekNewCasesGroupData:weekNewDeathsGroupData;
                 if (isNaN(value)) {
                     value = 0;
                 }
                 let per = 0;
-                let new_cases = (d.value.g_total-d.value.total);
-                if(new_cases==0){
-                    per = 0;
-                }else{
-                    per = (d.value.total/new_cases)*100
+                if(i>0){
+                    let p = data[i];
+                    try{
+                        per = ((d.value.total - p.value.total)/p.value.total) * 100;
+                    }catch(e){
+
+                    }
                 }
                 return `${formatWeek(d.key)}\n${value}\n${numberFormat(per)}%`;
             }).yAxis().tickFormat(d3.format('.2s'));
