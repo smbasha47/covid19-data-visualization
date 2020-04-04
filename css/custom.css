@@ -6,8 +6,6 @@
     width: 100%;
 }
 
-
-
 footer {
     margin-bottom: 10px;
 }
@@ -54,7 +52,7 @@ display: block;
 #country {
 overflow-y: auto;
 /* width: 20%; */
-height: 520px;
+height: 635px;
 }
 
 .text-danger {

@@ -43,7 +43,7 @@
               <div class="row">
                 <div id="daily-volume-chart" style="width:100%;">
                 </div>
-                <p class="muted pull-right" style="margin-right: 15px;">select a time range to zoom in</p>
+                <p class="muted pull-right" style="margin-right: 60px;">select a time range to zoom in</p>
               </div>
             </div>
           </div>
@@ -65,7 +65,7 @@
               <div class="row">
                 <div id="weekly-volume-chart" style="width:100%;">
                 </div>
-                <p class="muted pull-right" style="margin-right: 15px;">select a time range to zoom in</p>
+                <p class="muted pull-right" style="margin-right: 60px;">select a time range to zoom in</p>
               </div>
             </div>
           </div>
@@ -122,7 +122,7 @@
                 Map
               </div>
               <div class="chart-stage">
-                <div id="worldmap" style="width: 700px; height: 380px"></div>
+                <div id="worldmap" style="width: 700px; height: 540px"></div>
               </div>
             </div>
           </div>
