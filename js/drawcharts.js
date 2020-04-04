@@ -307,12 +307,12 @@ function drawWorldMap(worldgeojson) {
     var projection = d3.geoMercator()
             .center([950, 0])
             .scale(70);
-
+    var colors = [ '#F6BDC0', '#F1959B', '#F07470', '#EA4C46', '#DC1C13' ];
+          
     mapChart
        .dimension(facilities)
        .group(facilitiesGroup)
-       .colors(d3.scaleQuantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF",
-             "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+       .colors(d3.scaleQuantize().range(colors))
        .colorDomain([0, 200])
        .colorCalculator(function (d) { return d ? mapChart.colors()(d) : '#ccc'; })
        .overlayGeoJson(worldgeojson.features, "countries", function (d) {
