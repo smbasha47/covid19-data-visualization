@@ -303,6 +303,10 @@ function drawWorldMap(worldgeojson) {
     
     var facilities = ndx.dimension(function(d) { return d.location; });
     var facilitiesGroup = facilities.group().reduceSum(function(d) { return d.new_cases;});  
+    //console.log(facilities, facilitiesGroup, worldgeojson.features);
+    var projection = d3.geoMercator()
+            .center([950, 0])
+            .scale(70);
 
     mapChart
        .dimension(facilities)
@@ -314,7 +318,7 @@ function drawWorldMap(worldgeojson) {
        .overlayGeoJson(worldgeojson.features, "countries", function (d) {
            return d.properties.name;
        })
-   .projection(d3.geoAlbers())
+   .projection(projection)
    .valueAccessor(function(kv) {
     //    console.log(kv);
        return kv.value;
