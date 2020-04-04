@@ -1,3 +1,27 @@
+.container-fluid{
+    width: 99% !important;
+}
+
+.navbar-header {
+    width: 100%;
+}
+
+
+
+footer {
+    margin-bottom: 10px;
+}
+
+.navbar-right-content {
+    color: white; 
+    float: right;
+    padding-top: 5px;
+}
+
+.navbar-right-content a {
+    color: white;
+}
+
 #number-records-nd {
     font-size: 55px;
 }
