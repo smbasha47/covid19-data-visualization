@@ -4,7 +4,7 @@ dc.config.defaultColors(d3.schemeSet1);
 const dateFormatSpecifier = '%Y-%m-%d';
 const dateFormat = d3.timeFormat(dateFormatSpecifier);
 const formatWeek = d3.timeFormat("%b %d");
-const fullDateFormat = d3.timeFormat("%B %d, %Y");
+const fullDateFormat = d3.timeFormat("%B %d %Y");
 const dateFormatParser = d3.timeParse(dateFormatSpecifier);
 const numberFormat = d3.format('.2f');
 var country = new dc.RowChart("#country");
