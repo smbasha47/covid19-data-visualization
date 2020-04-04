@@ -1,0 +1,38 @@
+#number-records-nd {
+    font-size: 55px;
+}
+
+.dc-chart g.row text {
+    fill: black;
+
+}
+
+div.dc-chart {
+    float: left;
+}
+#daily-volume-chart g.y, #weekly-volume-chart g.y {
+    display: none;
+}
+.dc-chart text, #country text{
+fill: black;
+font-family: 'Helvetica Neue', 'Noto Sans', 'Droid Sans', Helvetica, sans-serif;
+}
+.dc-chart {
+margin: 0;
+padding: 0;
+}
+div.dc-chart {
+float: none;
+}
+svg {
+display: block;
+}
+#country {
+overflow-y: auto;
+/* width: 20%; */
+height: 520px;
+}
+
+.text-danger {
+    color: #ee5b5b !important;
+}
