@@ -13,6 +13,7 @@ const covid19Weekly = new dc.LineChart('#covid19-weekly');
 const dailyVolumeChart = new dc.BarChart('#daily-volume-chart');
 const weeklyVolumeChart = new dc.BarChart('#weekly-volume-chart');
 var mapChart = new dc.GeoChoroplethChart("#worldmap");
+var countrySelect = new dc.SelectMenu('#country-select');
 const minDate= new Date(2020, 0, 1), maxDate= new Date(2020, 03, 05);
 const ordinalColors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628'];
 var dynamic_for_width = document.getElementById("row_for_width").offsetWidth;
@@ -168,6 +169,14 @@ function drawCountryRowChart(){
            })
             .controlsUseVisibility( true )
             .render();
+    
+    countrySelect
+        .dimension(counryDim)
+        .group(countryGroup)
+        .order(function (a,b) {
+            return b.value > a.value ? 1 : a.value > b.value ? -1 : 0;
+        })
+        .render();
 }
 
 function drawDailyChart(){
@@ -182,9 +191,8 @@ function drawDailyChart(){
             .round(d3.timeDay.round)
             .alwaysUseRounding(true)
             .xUnits(d3.timeDays);
-            covid19Daily /* dc.lineChart('#monthly-move-chart', 'chartGroup') */
+    covid19Daily
             .renderArea(true)
-            // .width(990)
             .height(200)
             .transitionDuration(1000)
             .margins({top: 30, right: 50, bottom: 25, left: 40})
@@ -193,7 +201,6 @@ function drawDailyChart(){
             .on("filtered", function (chart) {
                 updateCounts();
             })
-        // Specify a "range chart" to link its brush extent with the zoom of the current "focus chart".
             .rangeChart(dailyVolumeChart)
             .x(d3.scaleTime().domain([minDate, maxDate]))
             .round(d3.timeDay.round)
@@ -201,21 +208,13 @@ function drawDailyChart(){
             .elasticY(true)
             .renderDataPoints(true)
             .ordinalColors(ordinalColors)
-            // .y(d3.scaleLog().clamp(true).domain([.5, 1000000]))
             .renderHorizontalGridLines(true)
-            //##### Legend
-
-            // Position the legend relative to the chart origin and specify items' height and separation.
             .legend(new dc.Legend().horizontal(true).x(500).y(10).gap(10))
             .brushOn(false)
-            // Add the base layer of the stack with group. The second parameter specifies a series name for use in the
-            // legend.
-            // The `.valueAccessor` will be used for the base layer
             .group(indexAvgByDayDeathsGroup, 'Deaths')
             .valueAccessor(d => d.value.total)
             .stack(indexAvgByDayGroup, 'New cases', d => d.value.total)
-            //.y(d3.scaleSymlog())
-            // Title can be called by any stack layer.
+            // .y(d3.scaleSymlog())
             .title((d, i) => {
                 let data = d.value.type=="newCases"? dayNewCasesGroupData:dayNewDeathsGroupData;
                 let value = d.value.total ? d.value.total : d.value;
@@ -226,6 +225,7 @@ function drawDailyChart(){
                 if(i>0){
                     let p = data[i];
                     try{
+                        // console.log((d.value.total - p.value.total), p.value.total, p);
                         per = ((d.value.total - p.value.total)/p.value.total) * 100;
                     }catch(e){
 
@@ -304,9 +304,11 @@ function drawWorldMap(worldgeojson) {
     var facilities = ndx.dimension(function(d) { return d.location; });
     var facilitiesGroup = facilities.group().reduceSum(function(d) { return d.new_cases;});  
     //console.log(facilities, facilitiesGroup, worldgeojson.features);
+    var height = $("#worldmap").height();
+    var width = $("#worldmap").width();
     var projection = d3.geoMercator()
-            .center([950, 0])
-            .scale(70);
+                    .scale(100)
+                    .center([50, 50]);
     var colors = [ '#F6BDC0', '#F1959B', '#F07470', '#EA4C46', '#DC1C13' ];
           
     mapChart

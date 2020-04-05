@@ -18,6 +18,8 @@
           Last Updated on:  <span id="lastUpdated"></span>
         </div>
         <a class="navbar-brand" href="./">Interactive visualization  of weekly and daily change in Covid-19 cases by country</a>
+        <br>
+        <span class="text-danger font-weight-bold nav-counts"  > Total Cases: <span id="filterCases"></span> &nbsp; &nbsp; Total Deaths: <span id="filterDeaths"></span> </span>
       </div>
     </div>
   </div>
@@ -29,7 +31,6 @@
           <div class="col-sm-12">
             <div class="chart-wrapper">
               <div id="row_for_width" class="chart-title">
-              
                 Daily change in New Cases & Deaths  
               </div>
               <div class="chart-stage">
@@ -78,7 +79,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-2">
+      <div class="col-sm-2" style="display:none;">
         <div class="row">
           <!-- Country Province -->  
           <div class="col-sm-12">
@@ -96,33 +97,16 @@
           <!-- Country Province -->  
         </div>
       </div>
-      <div class="col-sm-4">
-        <div class="row">
-          <!-- counts -->  
-          <div class="col-sm-12"> 
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Count
-              </div>
-              <div class="chart-stage ">
-                <div class="text-dark font-weight-bold">
-                Total Cases: <span id="filterCases"></span><br>
-                Total Deaths: <span id="filterDeaths"></span></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- counts -->  
-        </div>
+      <div class="col-sm-6">
         <div class="row">
           <!-- Map -->  
           <div class="col-sm-12"> 
             <div class="chart-wrapper">
               <div class="chart-title">
-                Map
+                Map <div id="country-select" style="float: right;"></div>
               </div>
               <div class="chart-stage">
-                <div id="worldmap" style="width: 700px; height: 540px"></div>
+                <div id="worldmap" style="width: 700px; height: 634px"></div>
               </div>
             </div>
           </div>

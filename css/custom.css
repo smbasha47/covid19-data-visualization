@@ -58,3 +58,15 @@ height: 635px;
 .text-danger {
     color: #ee5b5b !important;
 }
+.nav-counts{
+    float: left; 
+    clear: both; 
+    margin-top:-15px !important;
+    font-size: 14px !important;
+}
+.navbar-brand{
+    font-size: 14px !important;
+}
+.dc-select-menu{
+    width: 275px;
+}
