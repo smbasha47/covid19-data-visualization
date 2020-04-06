@@ -112,7 +112,7 @@
                 Map <div id="country-select" style="float: right;"></div>
               </div>
               <div class="chart-stage">
-                <img class="mt-1" src="./images/legend.png" style="position: absolute;">
+                <!-- <img class="mt-1" src="./images/legend.png" style="position: absolute;"> -->
                 <div id="worldmap" style="width: 700px; height: 634px"></div>
               </div>
             </div>

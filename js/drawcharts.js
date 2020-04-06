@@ -318,7 +318,8 @@ function drawWorldMap(worldgeojson) {
        .dimension(facilities)
        .group(facilitiesGroup)
        .colors(d3.scaleLinear().range(d3.schemeReds[7]))
-       .colorDomain([0, 10000])
+       .colorDomain([0, 10, 100, 1000, 10000, 100000, 1000000])
+       .legend(dc.legend().x(10).y(10).itemHeight(13).gap(5))
        .colorCalculator(function (d) { return d ? mapChart.colors()(d) : '#ccc'; })
        .overlayGeoJson(worldgeojson.features, "countries", function (d) {
            return d.properties.name;
@@ -334,5 +335,15 @@ function drawWorldMap(worldgeojson) {
        .title(function (d) {
            return "Country: " + d.key + "\nTotal No of. Cases: " + (d.value ? d.value : 0);
        });
+    mapChart.legendables = function () {
+        var domain = mapChart.colorDomain();
+        return domain.map(function (d, i) {
+            var di = 1000;
+            var legendable = {name: parseFloat((Math.round(domain[i] * di) /di).toPrecision(2)) , chart: mapChart};
+            if (i>=1) legendable.name = ` > ${legendable.name}`; // add the unit only in second(last) legend item
+            legendable.color = mapChart.colorCalculator()(domain[i]);
+            return legendable;
+        });
+    };  
 
 }
