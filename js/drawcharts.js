@@ -250,7 +250,7 @@ function drawDailyChart(){
 
                     }
                 }
-                return `${dateFormat(d.key)}\n${value}\n${numberFormat(per)}%`;
+                return `${dateFormat(d.key)}\n${readNumberFormat(value)}\n${numberFormat(per)}%`;
             })
             .yAxis().tickFormat(d3.format('.2s')).tickValues(yTickRange);
 }
@@ -306,7 +306,7 @@ function drawWeeklyChart(){
 
                     }
                 }
-                return `${formatWeek(d.key)}\n${value}\n${numberFormat(per)}%`;
+                return `${formatWeek(d.key)}\n${readNumberFormat(value)}\n${numberFormat(per)}%`;
             })
             .yAxis().tickFormat(d3.format('.2s')).tickValues(yTickRangeOfWeek);
 }
@@ -342,7 +342,7 @@ function drawWorldMap(worldgeojson) {
        return kv.value;
    })
        .title(function (d) {
-           return "Country: " + d.key + "\nTotal No of. Cases: " + (d.value ? d.value : 0);
+           return "Country: " + d.key + "\nTotal No of. Cases: " + readNumberFormat(d.value ? d.value : 0);
        });
     mapChart.legendables = function () {
         var domain = mapChart.colorDomain();
