@@ -32,12 +32,13 @@
             <div class="chart-wrapper">
               <div id="row_for_width" class="chart-title">
                 Daily change in New Cases & Deaths  
+                <a style="float:right;" href="javascript:dc.filterAll(); dc.redrawAll();">Reset All</a>
               </div>
               <div class="chart-stage">
                 <div id="covid19-daily">
                 <div style="height: 20px;">
-                  <span class="reset" style="display: none;">range: <span class="filter"></span></span>
-                  <a class="reset" href="javascript:covid19Daily.filterAll();dailyVolumeChart.filterAll();dc.redrawAll();" style="float: right;display: none;">reset</a>
+                  <span class="reset" style="display: none;">Range: <span class="filter"></span></span>
+                  <a class="reset" href="javascript:covid19Daily.filterAll();dailyVolumeChart.filterAll();dc.redrawAll();" style="float: right;display: none;">Reset</a>
                 </div>
                 </div>
               </div>
@@ -58,8 +59,8 @@
               <div class="chart-stage">
                 <div id="covid19-weekly">
                 <div  style="height: 20px;">
-                  <span class="reset" style="display: none;">range: <span class="filter"></span></span>
-                  <a class="reset" href="javascript:covid19Weekly.filterAll();weeklyVolumeChart.filterAll();dc.redrawAll();" style="display: none; float: right;">reset</a>
+                  <span class="reset" style="display: none;">Range: <span class="filter"></span></span>
+                  <a class="reset" href="javascript:covid19Weekly.filterAll();weeklyVolumeChart.filterAll();dc.redrawAll();" style="display: none; float: right;">Reset</a>
                 </div>
                 </div>
               </div>
@@ -106,6 +107,7 @@
                 Map <div id="country-select" style="float: right;"></div>
               </div>
               <div class="chart-stage">
+                <img class="mt-1" src="./images/legend.png" style="position: absolute;">
                 <div id="worldmap" style="width: 700px; height: 634px"></div>
               </div>
             </div>
@@ -125,7 +127,7 @@
           </a> </div>
           <div style="float: right;"> LICENSE: Apache 2.0</div>
         <div style="float: left;"> Contributors: Mahaboob Basha, Srini PNV, Nithin Raju Devaraju </div>
-        <div style="width: 250px;margin:0 auto;">Copyright &copy; 2020 . All rights reserved.</div>
+        <div style="width: 250px;margin:0 auto;">Copyright &copy; 2020 <a href="https://www.intuceo.com" target="blank" >www.intuceo.com</a> </div>
         <div style="clear: both;"></div>
     </footer>
   </div>

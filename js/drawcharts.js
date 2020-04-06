@@ -314,8 +314,8 @@ function drawWorldMap(worldgeojson) {
     mapChart
        .dimension(facilities)
        .group(facilitiesGroup)
-       .colors(d3.scaleQuantize().range(colors))
-       .colorDomain([0, 200])
+       .colors(d3.scaleLinear().range(d3.schemeReds[7]))
+       .colorDomain([0, 10000])
        .colorCalculator(function (d) { return d ? mapChart.colors()(d) : '#ccc'; })
        .overlayGeoJson(worldgeojson.features, "countries", function (d) {
            return d.properties.name;
