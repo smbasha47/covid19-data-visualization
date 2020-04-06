@@ -183,6 +183,10 @@ function drawCountryRowChart(){
             .render();
     
     countrySelect
+        .promptText('All countries')
+        .title(function (d){
+            return `${d.key} : ${readNumberFormat(d.value)}`;
+        })
         .dimension(counryDim)
         .group(countryGroup)
         .order(function (a,b) {
