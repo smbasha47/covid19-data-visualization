@@ -4,9 +4,10 @@ dc.config.defaultColors(d3.schemeSet1);
 const dateFormatSpecifier = '%Y-%m-%d';
 const dateFormat = d3.timeFormat(dateFormatSpecifier);
 const formatWeek = d3.timeFormat("%b %d");
-const fullDateFormat = d3.timeFormat("%B %d %Y");
+const fullDateFormat = d3.timeFormat("%B %d, %Y");
 const dateFormatParser = d3.timeParse(dateFormatSpecifier);
 const numberFormat = d3.format('.2f');
+const readNumberFormat = d3.format(",");
 const lNumberFormat = d3.format(".2s");
 var country = new dc.RowChart("#country");
 const covid19Daily = new dc.LineChart('#covid19-daily');
@@ -73,8 +74,8 @@ function updateCounts(){
     let filterNoOfDeaths = 0;
     filterData.forEach(function(d){ filterNoOfCases +=d.new_cases; });
     filterData.forEach(function(d){ filterNoOfDeaths +=d.new_deaths; });
-    $("#filterCases").html(filterNoOfCases);
-    $("#filterDeaths").html(filterNoOfDeaths);
+    $("#filterCases").html(readNumberFormat(filterNoOfCases));
+    $("#filterDeaths").html(readNumberFormat(filterNoOfDeaths));
 }
 
 function updateDimAndGroups(data, geojson){
