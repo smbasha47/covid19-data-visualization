@@ -7,6 +7,7 @@ const formatWeek = d3.timeFormat("%b %d");
 const fullDateFormat = d3.timeFormat("%B %d %Y");
 const dateFormatParser = d3.timeParse(dateFormatSpecifier);
 const numberFormat = d3.format('.2f');
+const lNumberFormat = d3.format(".2s");
 var country = new dc.RowChart("#country");
 const covid19Daily = new dc.LineChart('#covid19-daily');
 const covid19Weekly = new dc.LineChart('#covid19-weekly');
@@ -14,7 +15,10 @@ const dailyVolumeChart = new dc.BarChart('#daily-volume-chart');
 const weeklyVolumeChart = new dc.BarChart('#weekly-volume-chart');
 var mapChart = new dc.GeoChoroplethChart("#worldmap");
 var countrySelect = new dc.SelectMenu('#country-select');
-const minDate= new Date(2020, 0, 1), maxDate= new Date(2020, 03, 05);
+var minDate= new Date(2020, 0, 1);
+var maxDate= new Date(2020, 03, 01);
+const yTickRange = [0, 100, 500, 1000, 5000, 10000, 50000, 100000, 300000];
+const yTickRangeOfWeek = [0, 100, 500, 1000, 5000, 10000, 50000, 100000, 600000];
 const ordinalColors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628'];
 var dynamic_for_width = document.getElementById("row_for_width").offsetWidth;
 var max = 0
@@ -23,6 +27,12 @@ indexAvgByDayDeathsGroup, moveWeeks, volumeByWeeksGroup, indexAvgByWeeksGroup,
 indexAvgByWeeksDeathsGroup,
     dayNewCasesGroupData, dayNewDeathsGroupData,
     weekNewCasesGroupData, weekNewDeathsGroupData;
+
+    function addDays(date, days) {
+        const copy = new Date(Number(date))
+        copy.setDate(date.getDate() + days)
+        return copy
+      }
 
 Promise.all([d3.json("./data/worldgeo.json"), d3.csv("https://covid.ourworldindata.org/data/ecdc/full_data.csv")])
     .then(function([worldgeojson, data]) {
@@ -44,8 +54,9 @@ Promise.all([d3.json("./data/worldgeo.json"), d3.csv("https://covid.ourworldinda
 
         updateDimAndGroups(data, worldgeojson);
 
-        var maxDate = counryDim.top(1)[0]['dd'];
+        maxDate = counryDim.top(1)[0]['dd'];
         $("#lastUpdated").html(fullDateFormat(maxDate));
+        maxDate = addDays(maxDate, 2);
 
         drawCountryRowChart();
         drawDailyChart();
@@ -217,7 +228,7 @@ function drawDailyChart(){
             .group(indexAvgByDayDeathsGroup, 'Deaths')
             .valueAccessor(d => d.value.total)
             .stack(indexAvgByDayGroup, 'New cases', d => d.value.total)
-            // .y(d3.scaleSymlog())
+            .y(d3.scaleSymlog())
             .title((d, i) => {
                 let data = d.value.type=="newCases"? dayNewCasesGroupData:dayNewDeathsGroupData;
                 let value = d.value.total ? d.value.total : d.value;
@@ -236,7 +247,7 @@ function drawDailyChart(){
                 }
                 return `${dateFormat(d.key)}\n${value}\n${numberFormat(per)}%`;
             })
-            .yAxis().tickFormat(d3.format('.2s'));
+            .yAxis().tickFormat(d3.format('.2s')).tickValues(yTickRange);
 }
 
 function drawWeeklyChart(){
@@ -251,9 +262,8 @@ function drawWeeklyChart(){
             .round(d3.timeWeek.round)
             .alwaysUseRounding(true)
             .xUnits(d3.timeWeek);
-    covid19Weekly /* dc.lineChart('#monthly-move-chart', 'chartGroup') */
+    covid19Weekly
             .renderArea(true)
-            // .width(990)
             .height(200)
             .transitionDuration(1000)
             .margins({top: 30, right: 50, bottom: 25, left: 40})
@@ -263,7 +273,6 @@ function drawWeeklyChart(){
             .on("filtered", function (chart) {
                 updateCounts();
             })
-        // Specify a "range chart" to link its brush extent with the zoom of the current "focus chart".
             .rangeChart(weeklyVolumeChart)
             .x(d3.scaleTime().domain([minDate, maxDate]))
             .round(d3.timeWeek.round)
@@ -271,18 +280,12 @@ function drawWeeklyChart(){
             .elasticY(true)
             .ordinalColors(ordinalColors)
             .renderHorizontalGridLines(true)
-        //##### Legend
-
-            // Position the legend relative to the chart origin and specify items' height and separation.
             .legend(new dc.Legend().horizontal(true).x(500).y(10).gap(10))
             .brushOn(false)
-            // Add the base layer of the stack with group. The second parameter specifies a series name for use in the
-            // legend.
-            // The `.valueAccessor` will be used for the base layer
             .group(indexAvgByWeeksDeathsGroup, 'Deaths')
             .valueAccessor(d => d.value.total)
             .stack(indexAvgByWeeksGroup, 'New cases', d => d.value.total)
-            // Title can be called by any stack layer.
+            .y(d3.scaleSymlog())
             .title((d, i)=> {
                 let value = d.value.total ? d.value.total : d.value;
                 let data = d.value.type=="newCases"? weekNewCasesGroupData:weekNewDeathsGroupData;
@@ -299,7 +302,8 @@ function drawWeeklyChart(){
                     }
                 }
                 return `${formatWeek(d.key)}\n${value}\n${numberFormat(per)}%`;
-            }).yAxis().tickFormat(d3.format('.2s'));
+            })
+            .yAxis().tickFormat(d3.format('.2s')).tickValues(yTickRangeOfWeek);
 }
 
 function drawWorldMap(worldgeojson) {
@@ -340,7 +344,7 @@ function drawWorldMap(worldgeojson) {
         return domain.map(function (d, i) {
             var di = 1000;
             var legendable = {name: parseFloat((Math.round(domain[i] * di) /di).toPrecision(2)) , chart: mapChart};
-            if (i>=1) legendable.name = ` > ${legendable.name}`; // add the unit only in second(last) legend item
+            if (i>=1) legendable.name = ` > ${lNumberFormat(legendable.name)}`; // add the unit only in second(last) legend item
             legendable.color = mapChart.colorCalculator()(domain[i]);
             return legendable;
         });
