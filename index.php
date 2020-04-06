@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Interactive visualization  of weekly and daily change in Covid-19 cases by country</title>
-  <link rel="shortcut icon" href="favicon.png">
-  <link rel="stylesheet" href="./lib/css//bootstrap.min.css?v=<?php echo time();?>">
-  <link rel="stylesheet" href="./css/dashboard.css?v=<?php echo time();?>">
-  <link rel="stylesheet" href="./css/dc.css?v=<?php echo time();?>">
-  <link rel="stylesheet" href="./css/custom.css?v=<?php echo time();?>">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="COVID-19/coronavirus  effected data visualization">
+<meta name="robots" content="index, follow">
+<title>Interactive visualization  of weekly and daily change in Covid-19 cases by country</title>
+<meta property="og:image" content="./images/home.png" />
+<link rel="shortcut icon" href="favicon.png">
+<link rel="stylesheet" href="./lib/css//bootstrap.min.css?v=<?php echo time();?>">
+<link rel="stylesheet" href="./css/dashboard.css?v=<?php echo time();?>">
+<link rel="stylesheet" href="./css/dc.css?v=<?php echo time();?>">
+<link rel="stylesheet" href="./css/custom.css?v=<?php echo time();?>">
 </head>
 <body class="application">
 

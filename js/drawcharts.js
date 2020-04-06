@@ -176,6 +176,9 @@ function drawCountryRowChart(){
         .order(function (a,b) {
             return b.value > a.value ? 1 : a.value > b.value ? -1 : 0;
         })
+        .on("filtered", function (chart) {
+            updateCounts();
+        })
         .render();
 }
 
@@ -320,6 +323,9 @@ function drawWorldMap(worldgeojson) {
        .overlayGeoJson(worldgeojson.features, "countries", function (d) {
            return d.properties.name;
        })
+       .on("filtered", function (chart) {
+        updateCounts();
+    })
    .projection(projection)
    .valueAccessor(function(kv) {
     //    console.log(kv);
