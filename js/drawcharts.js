@@ -356,3 +356,7 @@ function drawWorldMap(worldgeojson) {
     };  
 
 }
+
+$(window).on('resize', function(){
+    dc.renderAll();
+});

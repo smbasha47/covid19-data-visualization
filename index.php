@@ -22,7 +22,7 @@
           <a href="https://ourworldindata.org/coronavirus-source-data" target="black">[Data Source]</a> <br />
           Last Updated on:  <span id="lastUpdated"></span>
         </div>
-        <a class="navbar-brand" href="./">Interactive visualization  of weekly and daily change in Covid-19 cases by country</a>
+        <a class="navbar-brand" href="./">Weekly and Daily change in COVID-19 cases by country</a>
         <br>
         <span class="text-danger font-weight-bold nav-counts"  > Total Cases: <span id="filterCases"></span> &nbsp; &nbsp; Total Deaths: <span id="filterDeaths"></span> </span>
       </div>

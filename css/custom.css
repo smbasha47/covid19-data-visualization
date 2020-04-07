@@ -13,7 +13,8 @@ footer {
 .navbar-right-content {
     color: white; 
     float: right;
-    padding-top: 5px;
+    padding-top: 6px;
+    font-size: 9px;
 }
 
 .navbar-right-content a {
