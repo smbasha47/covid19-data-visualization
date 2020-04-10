@@ -8,7 +8,7 @@ Everything here is self expalnatory. [Link to the website](https://covid19.intuc
 
 # Installation
 1. Copy code into web root directory
-2. open in the browere `http://localhost/`
+2. browse using your domin URL ex: `http://localhost/`
 
 # Source Data 
 [Source Data](https://ourworldindata.org/coronavirus-source-data). 
