@@ -1,5 +1,19 @@
-dc.config.defaultColors(d3.schemeSet1);
+/*!
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
+ // all constants goes here
+dc.config.defaultColors(d3.schemeSet1);
 // const dateFormatSpecifier = '%m/%d/%Y';
 const dateFormatSpecifier = '%Y-%m-%d';
 const dateFormat = d3.timeFormat(dateFormatSpecifier);
@@ -29,19 +43,22 @@ indexAvgByWeeksDeathsGroup,
     dayNewCasesGroupData, dayNewDeathsGroupData,
     weekNewCasesGroupData, weekNewDeathsGroupData;
 
-    function addDays(date, days) {
-        const copy = new Date(Number(date))
-        copy.setDate(date.getDate() + days)
-        return copy
-      }
+// this method is used to add number of days to a given date 
+function addDays(date, days) {
+    const copy = new Date(Number(date))
+    copy.setDate(date.getDate() + days)
+    return copy
+    }
 
+// Gather all required data to render charts.
 Promise.all([d3.json("./data/worldgeo.json"), d3.csv("https://covid.ourworldindata.org/data/ecdc/full_data.csv")])
     .then(function([worldgeojson, data]) {
-
+        // Filter out world data because here world data is cumulative of all countries 
         data = data.filter(function(d) {
             return d.location != "World";
         });
 
+        // parse relavent datatypes and derive few required columns(day, week) for charts  
         data.forEach(function(d) {
             d.dd = dateFormatParser(d.date);
             d.day = d3.timeDay(d.dd);
@@ -53,21 +70,33 @@ Promise.all([d3.json("./data/worldgeo.json"), d3.csv("https://covid.ourworldinda
             d.pos = {key:d.location};
         });
 
-        updateDimAndGroups(data, worldgeojson);
+        //Update all dimensions for globel use
+        updateDimAndGroups(data);
 
+        // Get last updated date from the data
         maxDate = counryDim.top(1)[0]['dd'];
+        
+        // update in the site
         $("#lastUpdated").html(fullDateFormat(maxDate));
         maxDate = addDays(maxDate, 2);
 
+        // Draw country chart 
         drawCountryRowChart();
+        // Draw Daily change in New Cases & Deaths
         drawDailyChart();
+        // Draw Weekly change in New Cases & Deaths
         drawWeeklyChart();
+        // Draw world Map
         drawWorldMap(worldgeojson);
 
+        // Render all DC charts
         dc.renderAll();
+
+        // Update total counts on the top right corner
         updateCounts();
   });
 
+// here we are calculatiing and updating total cases 
 function updateCounts(){
     let filterData = ndx.allFiltered();
     let filterNoOfCases = 0 ;
@@ -78,7 +107,8 @@ function updateCounts(){
     $("#filterDeaths").html(readNumberFormat(filterNoOfDeaths));
 }
 
-function updateDimAndGroups(data, geojson){
+// function for updating dimensions
+function updateDimAndGroups(data){
     
     ndx = crossfilter(data);
 
@@ -124,7 +154,6 @@ function updateDimAndGroups(data, geojson){
     );
     dayNewCasesGroupData = indexAvgByDayGroup.all();
     dayNewDeathsGroupData = indexAvgByDayDeathsGroup.all();
-    // console.log(dayNewCasesGroupData, dayNewDeathsGroupData);
      moveWeeks = ndx.dimension(d => d.week);
      volumeByWeeksGroup = moveWeeks.group().reduceSum(d => d.new_cases);
      indexAvgByWeeksGroup = moveWeeks.group().reduce(
@@ -244,7 +273,6 @@ function drawDailyChart(){
                 if(i>0){
                     let p = data[i];
                     try{
-                        // console.log((d.value.total - p.value.total), p.value.total, p);
                         per = ((d.value.total - p.value.total)/p.value.total) * 100;
                     }catch(e){
 
@@ -315,13 +343,9 @@ function drawWorldMap(worldgeojson) {
     
     var facilities = ndx.dimension(function(d) { return d.location; });
     var facilitiesGroup = facilities.group().reduceSum(function(d) { return d.new_cases;});  
-    //console.log(facilities, facilitiesGroup, worldgeojson.features);
-    var height = $("#worldmap").height();
-    var width = $("#worldmap").width();
     var projection = d3.geoMercator()
                     .scale(100)
                     .center([50, 50]);
-    var colors = [ '#F6BDC0', '#F1959B', '#F07470', '#EA4C46', '#DC1C13' ];
           
     mapChart
        .dimension(facilities)
@@ -338,7 +362,6 @@ function drawWorldMap(worldgeojson) {
     })
    .projection(projection)
    .valueAccessor(function(kv) {
-    //    console.log(kv);
        return kv.value;
    })
        .title(function (d) {
@@ -358,5 +381,6 @@ function drawWorldMap(worldgeojson) {
 }
 
 $(window).on('resize', function(){
+    // update charts on window resize 
     dc.renderAll();
 });
