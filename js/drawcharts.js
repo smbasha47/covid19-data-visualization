@@ -24,7 +24,7 @@ const numberFormat = d3.format('.2f');
 const readNumberFormat = d3.format(",");
 const lNumberFormat = d3.format(".2s");
 var country = new dc.RowChart("#country");
-const covid19Daily = new dc.LineChart('#covid19-daily');
+const covid19Daily = new dc.BarChart('#covid19-daily');
 const covid19Weekly = new dc.LineChart('#covid19-weekly');
 const dailyVolumeChart = new dc.BarChart('#daily-volume-chart');
 const weeklyVolumeChart = new dc.BarChart('#weekly-volume-chart');
@@ -32,8 +32,8 @@ var mapChart = new dc.GeoChoroplethChart("#worldmap");
 var countrySelect = new dc.SelectMenu('#country-select');
 var minDate= new Date(2020, 0, 1);
 var maxDate= new Date(2020, 03, 01);
-const yTickRange = [0, 100, 500, 1000, 5000, 10000, 50000, 100000, 300000];
-const yTickRangeOfWeek = [0, 100, 500, 1000, 5000, 10000, 50000, 100000, 600000];
+const yTickRange = [0, 100, 500, 1000, 5000, 10000, 50000, 100000, 300000, 600000];
+const yTickRangeOfWeek = [0, 100, 500, 1000, 5000, 10000, 50000, 100000, 600000, 1200000, 1800000];
 const ordinalColors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628'];
 var dynamic_for_width = document.getElementById("row_for_width").offsetWidth;
 var max = 0
@@ -240,7 +240,7 @@ function drawDailyChart(){
             .alwaysUseRounding(true)
             .xUnits(d3.timeDays);
     covid19Daily
-            .renderArea(true)
+            // .renderArea(true)
             .height(200)
             .transitionDuration(1000)
             .margins({top: 30, right: 50, bottom: 25, left: 40})
@@ -254,7 +254,7 @@ function drawDailyChart(){
             .round(d3.timeDay.round)
             .xUnits(d3.timeDays)
             .elasticY(true)
-            .renderDataPoints(true)
+            // .renderDataPoints(true)
             .ordinalColors(ordinalColors)
             .renderHorizontalGridLines(true)
             .legend(new dc.Legend().horizontal(true).x(500).y(10).gap(10))
@@ -351,8 +351,8 @@ function drawWorldMap(worldgeojson) {
        .dimension(facilities)
        .group(facilitiesGroup)
        .colors(d3.scaleLinear().range(d3.schemeReds[7]))
-       .colorDomain([0, 10, 100, 1000, 10000, 100000, 1000000])
-       .legend(dc.legend().x(10).y(10).itemHeight(13).gap(5))
+       .colorDomain([0, 10, 100, 1000000, 2000000, 2500000, 5000000, 10000000, 15000000, 20000000])
+       .legend(dc.legend().x(20).y(20).itemHeight(13).gap(5))
        .colorCalculator(function (d) { return d ? mapChart.colors()(d) : '#ccc'; })
        .overlayGeoJson(worldgeojson.features, "countries", function (d) {
            return d.properties.name;
